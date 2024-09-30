@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
@@ -28,6 +29,12 @@ abstract class BaseActivity<VB : ViewBinding>(val bindingFactory: (LayoutInflate
         getData()
         initView()
         bindView()
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                onBack()
+            }
+        })
     }
 
     open fun getData() {
@@ -95,7 +102,7 @@ abstract class BaseActivity<VB : ViewBinding>(val bindingFactory: (LayoutInflate
         }
     }
 
-    override fun onBackPressed() {
+    open fun onBack() {
         setResult(RESULT_OK)
         finishThisActivity()
     }
